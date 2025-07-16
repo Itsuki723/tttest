@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Integer, String, TIMESTAMP, nullsfirst
 from sqlalchemy.orm import Mapped,mapped_column
 
-from resources import db
+from common.extensions import db
 
 class BookModel(db.Model):
     __tablename__ = 'books'
@@ -12,6 +12,7 @@ class BookModel(db.Model):
     author:Mapped[str] = mapped_column(String(255),nullable=False)
     publish_time:Mapped[datetime] = mapped_column(TIMESTAMP,nullable=False)
 
+    '''                     此方法被@marshal_with(BookModelSchema)优化了
     def serialize(self):
         return {
             'id':self.id,
@@ -19,3 +20,4 @@ class BookModel(db.Model):
             'author':self.author,
             'publish_time':self.publish_time.isoformat()
         }
+    '''

@@ -1,7 +1,7 @@
 from sqlalchemy import Select, asc
 
 from models.bookmodel import BookModel
-from resources import db
+from common.extensions import db
 
 class BookService:
     def get_book_by_id(self,book_id:int):

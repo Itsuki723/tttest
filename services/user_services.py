@@ -1,9 +1,9 @@
 from sqlalchemy import Select
 
 from models.usermodel import UserModel
-from resources import db
+from common.extensions import db
 
-
+                                        #后续考虑更新：密码加密存储、注册功能实现
 class UserService:
     def login(self,username:str,password:str):
         query = Select(UserModel).where(UserModel.username==username)

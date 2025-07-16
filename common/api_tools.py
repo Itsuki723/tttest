@@ -13,7 +13,7 @@ def token_required(f):
         if not jwt_token:
             return {'error': 'User unauthorized'}, 401
         try:
-            user_info = jwt.decode(jwt_token, LOGIN_SECRET, algorithms='HS256')
+            user_info = jwt.decode(jwt_token, LOGIN_SECRET, algorithm='HS256')
             if not user_info or not user_info.get('username', None):
                 return {'error': 'User unauthorized'}, 401
         except Exception as e:

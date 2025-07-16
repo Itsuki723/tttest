@@ -1,11 +1,10 @@
 from datetime import datetime
-from flask import request, Response
+from flask import request
 from flask_apispec import doc, MethodResource, use_kwargs, marshal_with
 from flask_restful import Resource
 from common.Schemas import BookModelSchema, BookRequestSchema, TokenSchema
 from common.api_tools import token_required
 from models.bookmodel import BookModel
-from resources import api, docs, app
 from services.book_services import BookService
 
 class BookResource(MethodResource,Resource):
@@ -64,6 +63,7 @@ class BookListResource(MethodResource,Resource):
             return{'error':'no books here'},404
 
     @doc(description="create a new book", tags=['BookRequest'])
+    @marshal_with(BookModelSchema,code=200)
     @token_required
     def post(self):
         try:
@@ -77,20 +77,8 @@ class BookListResource(MethodResource,Resource):
                 book_service = BookService()
                 book_service.create_book(new_book)
 
-                return new_book.serialize()
+                return new_book
             else:
                 return {'error':'request body is empty'},400
         except Exception as e:
             return {'error':f'{e}'},400
-
-
-api.add_resource(BookResource,'/books/<int:book_id>')
-docs.register(BookResource)
-
-api.add_resource(BookListResource,'/books')
-docs.register(BookListResource)
-
-@app.route('/swagger.yaml')
-def generate_swagger_yaml():
-    yaml_doc = docs.spec.to_yaml()
-    return Response(yaml_doc, mimetype='text/x-yaml')
