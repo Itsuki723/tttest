@@ -1,0 +1,12 @@
+Flask==3.1.1
+Flask_RESTful==0.3.10
+flask_sqlalchemy==3.1.1
+PyJWT==2.8.0
+SQLAlchemy==2.0.23
+mysqlclient==2.2.0
+apispec==6.3.1
+flask_apispec==0.11.4
+PyYAML==6.0.1
+flask-restful~=0.3.10
+flask-apispec~=0.11.4
+marshmallow~=3.20.1

@@ -1,13 +1,14 @@
 import jwt
 from flask import request
+from flask_apispec import MethodResource
 from flask_restful import Resource
 
 from common.constants import LOGIN_SECRET
-from resources import api
+from resources import api,docs
 from services.user_services import UserService
 
 
-class LoginResource(Resource):
+class LoginResource(MethodResource,Resource):
     def post(self):
         try:
             request_json = request.json
@@ -28,3 +29,4 @@ class LoginResource(Resource):
         except Exception as e:
             return {'error':f'{e}'},400
 api.add_resource(LoginResource,'/login')
+docs.register(LoginResource)
