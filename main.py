@@ -3,7 +3,8 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from common.extensions import db,api,docs
 from resources.book_resources import BookResource,BookListResource
-from resources.user_resources import UserResource
+from resources.user_resources import LoginResource, RegisterResource
+
 
 def create_app():
     app = Flask(__name__)
@@ -51,14 +52,21 @@ def create_app():
     )
 
     app.add_url_rule(
-        '/user',
-        view_func=UserResource.as_view('userResource'),
+        '/login',
+        view_func=LoginResource.as_view('userResource'),
+        methods=['POST']
+    )
+
+    app.add_url_rule(
+        '/register',
+        view_func=RegisterResource.as_view('registerResource'),
         methods=['POST']
     )
 
     docs.register(BookResource, endpoint='bookResource')
     docs.register(BookListResource, endpoint='bookListResource')
-    docs.register(UserResource, endpoint='userResource')
+    docs.register(LoginResource, endpoint='userResource')
+    docs.register(RegisterResource, endpoint='registerResource')
 
     @app.route('/swagger.yaml')
     def generate_swagger_yaml():

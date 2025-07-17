@@ -1,14 +1,13 @@
 import jwt
-from flask import request
 from flask_apispec import MethodResource, doc, use_kwargs
-from flask_restful import Resource
+from flask_restful import Resource, marshal_with
 
-from common.Schemas import UserLoginSchema
+from common.Schemas import UserLoginSchema, UserRegisterSchema
 from common.constants import LOGIN_SECRET
 from services.user_services import UserService
 
-class UserResource(MethodResource,Resource):
-    @doc(description="user logging", tags=['UserRequest'])
+class LoginResource(MethodResource,Resource):
+    @doc(description="user logging", tags=['LoginRequest'])
     @use_kwargs(UserLoginSchema,location="json")
     def post(self, **kwargs):
         username = kwargs.get('username')
@@ -26,3 +25,13 @@ class UserResource(MethodResource,Resource):
         else:
             return {'error':'Invalid username or password'},401
 
+class RegisterResource(MethodResource,Resource):
+    @doc(description="user registration", tags=['RegisterRequest'])
+    @use_kwargs(UserRegisterSchema(),location="json")     #参数解析和校验
+    def post(self, **kwargs):
+        try:
+            user_service = UserService()
+            user = user_service.register_user(**kwargs)
+            return user.serialize(),201
+        except Exception as e:
+            return {'error':str(e)},400

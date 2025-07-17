@@ -2,6 +2,7 @@ from marshmallow import Schema, fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 from models.bookmodel import BookModel
+from models.usermodel import UserModel
 
 class TokenSchema(Schema):          #swagger文档token需求
     token = fields.String(required=True)
