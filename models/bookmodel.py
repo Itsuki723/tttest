@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped,mapped_column
 from common.extensions import db
 
 class BookModel(db.Model):
-    __tablename__ = 'books'
+    __tablename__ = 'books'             #后续更新：表名一般规范为单数
     id:Mapped[int] = mapped_column(Integer, primary_key=True)
     name:Mapped[str] = mapped_column(String(255),nullable=False,unique=True)
     author:Mapped[str] = mapped_column(String(255),nullable=False)
